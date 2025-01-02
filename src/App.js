@@ -1,13 +1,21 @@
 import './App.css';
-import {store} from "./Actions/store";
-import {Provider} from "react-redux";
-import {Dcc} from "./Components/DC"
+import {useEffect} from "react";
+import axios from 'axios'
 
 function App() {
+
+
+  useEffect(() => {
+    axios.get("http://localhost:5260/api/CustomerDBs")
+    .then((response) => {
+      console.log(response.data)
+    })
+  },[])
   return (
-    <Provider store={store}>
-      <Dcc />
-    </Provider>
+    
+    <h1>
+      test react place
+    </h1>
   );
 }
 
