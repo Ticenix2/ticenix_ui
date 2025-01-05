@@ -1,21 +1,24 @@
 import './App.css';
 import {useEffect} from "react";
 import axios from 'axios'
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import LoginPage from './pages/LoginPage';
 
 function App() {
 
 
-  useEffect(() => {
-    axios.get("http://localhost:5260/api/CustomerDBs")
-    .then((response) => {
-      console.log(response.data)
-    })
-  },[])
+  // useEffect(() => {
+  //   axios.get("http://localhost:5260/api/CustomerDBs")
+  //   .then((response) => {
+  //     console.log(response.data)
+  //   })
+  // },[])
   return (
-    
-    <h1>
-      test react place
-    </h1>
+    <Router>
+      <Routes>
+        <Route path="/panel/login" element={<LoginPage />} />
+      </Routes>
+    </Router>
   );
 }
 
