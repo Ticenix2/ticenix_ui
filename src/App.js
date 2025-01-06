@@ -4,6 +4,9 @@ import axios from 'axios'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
+import ProductAdd from './pages/products/productAdd';
+import SidebarLayout from './layouts/SidebarLayout';
+
 
 function App() {
 
@@ -17,8 +20,14 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Login sayfası, Sidebar olmadan */}
         <Route path="/panel/login" element={<LoginPage />} />
-        <Route path="/panel/dashboard" element={<DashboardPage />} />
+
+        {/* Sidebar ile sarılmış diğer sayfalar */}
+        <Route element={<SidebarLayout />}>
+          <Route path="/panel/dashboard" element={<DashboardPage />} />
+          <Route path="/products/add" element={<ProductAdd />} />
+        </Route>
       </Routes>
     </Router>
   );

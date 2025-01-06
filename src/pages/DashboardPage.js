@@ -5,9 +5,6 @@ import DashboardContent from '../components/dashboard/DashboardContent'; // Dash
 function DashboardPage() {
   return (
     <div className="flex h-auto">
-      {/* Sol Sidebar */}
-      <Sidebar />
-
       {/* Ana İçerik Alanı */}
       <div className="flex-1 p-6 overflow-y-auto">
         <DashboardContent /> {/* DashboardContent bileşenini ekledik */}
