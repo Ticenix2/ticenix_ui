@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import ProductAdd from './pages/products/productAdd';
 import SidebarLayout from './layouts/SidebarLayout';
+import ProductList from './pages/products/productList';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route element={<SidebarLayout />}>
           <Route path="/panel/dashboard" element={<DashboardPage />} />
           <Route path="/products/add" element={<ProductAdd />} />
+          <Route path="/products/list" element={<ProductList />} />
         </Route>
       </Routes>
     </Router>
