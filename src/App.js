@@ -7,6 +7,8 @@ import DashboardPage from './pages/DashboardPage';
 import ProductAdd from './pages/products/productAdd';
 import SidebarLayout from './layouts/SidebarLayout';
 import ProductList from './pages/products/productList';
+import ProductCategories from './pages/products/productCategories';
+import ProductStock from './pages/products/productStock';
 
 
 function App() {
@@ -29,6 +31,10 @@ function App() {
           <Route path="/panel/dashboard" element={<DashboardPage />} />
           <Route path="/products/add" element={<ProductAdd />} />
           <Route path="/products/list" element={<ProductList />} />
+          <Route path="/products/categories" element={<ProductCategories />} />
+          <Route path="/products/stock" element={<ProductStock />} />
+
+
         </Route>
       </Routes>
     </Router>
