@@ -1,21 +1,28 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // useNavigate kullanıyoruz
+import { resetPassword } from "../../services/authService"; // authService'den resetPassword fonksiyonunu import ediyoruz
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [error, setError] = useState(""); // Hata mesajları için state ekliyoruz
   const navigate = useNavigate(); // navigate fonksiyonunu oluşturduk
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Burada API'ye veri gönderilebilir, şifre sıfırlama linki gönderme işlemi yapılabilir
-    // Şifre sıfırlama işlemi başarılıysa mesaj gösterelim
-    setMessage("E-posta adresinize şifre sıfırlama linki gönderildi.");
-    
-    // Kayıt olduktan sonra ya da başarılı bir işlem sonrası kullanıcıyı login sayfasına yönlendirebiliriz
-    setTimeout(() => {
-      navigate("/login"); // E-posta gönderimi başarılı ise login sayfasına yönlendiriyoruz
-    }, 2000);
+
+    try {
+      const response = await resetPassword({ email }); // E-posta adresini authService'e gönderiyoruz
+      setMessage(response.message); // Başarılı işlem sonrası gelen mesajı gösteriyoruz
+
+      // Şifre sıfırlama işlemi başarılı ise, kullanıcıyı login sayfasına yönlendiriyoruz
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } catch (err) {
+      setError("Bir hata oluştu. Lütfen tekrar deneyin.");
+      console.error(err);
+    }
   };
 
   return (
@@ -25,9 +32,15 @@ const ForgotPasswordForm = () => {
         Şifrenizi sıfırlamak için e-posta adresinizi girin.
       </p>
       
+      {/* Mesajlar */}
       {message && (
         <div className="text-center text-green-500 font-medium">
           {message}
+        </div>
+      )}
+      {error && (
+        <div className="text-center text-red-500 font-medium">
+          {error}
         </div>
       )}
 
@@ -46,7 +59,7 @@ const ForgotPasswordForm = () => {
             className="mt-1 block w-full p-4 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             placeholder="E-Posta"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)} // E-posta bilgisini state'e kaydediyoruz
             required
           />
         </div>
