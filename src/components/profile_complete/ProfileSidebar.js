@@ -1,5 +1,5 @@
 import React from "react";
-import { FaUserCircle, FaRegAddressCard, FaUserTie, FaCreditCard, FaHome } from "react-icons/fa"; // Anasayfa simgesi ekledik
+import { FaUserCircle, FaRegAddressCard, FaUserTie, FaCreditCard, FaHome, FaSignOutAlt } from "react-icons/fa"; // Çıkış simgesi ekledik
 import { useNavigate } from "react-router-dom";
 
 const ProfileSidebar = ({ userName, email }) => {
@@ -14,6 +14,13 @@ const ProfileSidebar = ({ userName, email }) => {
 
   // Anasayfaya yönlendirme işlevi
   const goToHome = () => navigate("/profile-complete");
+
+  // Çıkış yapma işlevi (simüle edilen çıkış)
+  const handleLogout = () => {
+    // Burada çıkış işlemi yapılabilir (örneğin, token silme veya oturumu sonlandırma)
+    // Bu örnekte sadece anasayfaya yönlendirme yapıyoruz
+    navigate("/login"); // Oturum kapatıldıktan sonra login sayfasına yönlendirme
+  };
 
   return (
     <aside className="bg-white shadow-lg p-6 rounded-lg">
@@ -87,6 +94,17 @@ const ProfileSidebar = ({ userName, email }) => {
           className="text-sm text-blue-500 font-light hover:underline hover:text-blue-700 transition duration-300"
         >
           Bir sorun mu yaşıyorsunuz? <strong>Bize Ulaşın!</strong>
+        </button>
+      </div>
+
+      {/* Logout Button (Kırmızı) */}
+      <div className="mt-8 text-center">
+        <button
+          onClick={handleLogout}
+          className="w-full py-3 bg-red-600 text-white font-medium rounded-lg shadow hover:bg-red-700 transition duration-300"
+        >
+          <FaSignOutAlt className="mr-2 inline-block" />
+          Çıkış Yap
         </button>
       </div>
     </aside>
