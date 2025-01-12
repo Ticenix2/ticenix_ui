@@ -34,16 +34,6 @@ const MainMenu = [
     ]
   },
   {
-    name: 'notifications',
-    label: 'Yönetici Bildirimleri',
-    icon: <FaUserShield className="text-xl" />,
-    subMenu: [
-      { label: 'Önemli Uyarılar', path: '/admin/notifications' },
-      { label: 'Hatırlatmalar', path: '/admin/reminders' },
-      { label: 'Kritik Uyarılar', path: '/admin/critical-notifications' }
-    ]
-  },
-  {
     name: 'products',
     label: 'Ürünler',
     icon: <FaProductHunt className="text-xl" />,

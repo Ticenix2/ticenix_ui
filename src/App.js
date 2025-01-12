@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import axios from 'axios'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage';
+import DashboardPage from './pages/dashboard/dashboardPage';
 import ProductAdd from './pages/products/productAdd';
 import SidebarLayout from './layouts/SidebarLayout';
 import ProductList from './pages/products/productList';
@@ -33,6 +33,8 @@ function App() {
           <Route path="/products/list" element={<ProductList />} />
           <Route path="/products/categories" element={<ProductCategories />} />
           <Route path="/products/stock" element={<ProductStock />} />
+
+
 
 
         </Route>

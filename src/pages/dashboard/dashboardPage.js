@@ -1,6 +1,6 @@
 import React from 'react';
-import Sidebar from '../components/dashboard/Sidebar/Sidebar';
-import DashboardContent from '../components/dashboard/DashboardContent'; // DashboardContent dosyasını import ettik.
+import Sidebar from '../../components/dashboard/Sidebar/Sidebar';
+import DashboardContent from '../../components/dashboard/DashboardContent'; // DashboardContent dosyasını import ettik.
 
 function DashboardPage() {
   return (
