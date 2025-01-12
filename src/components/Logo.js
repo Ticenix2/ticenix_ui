@@ -1,6 +1,6 @@
 import React from "react";
 
-const LoginLogo = () => {
+const Logo = () => {
   return (
     <div className="absolute top-6 left-6 flex items-center">
       {/* Logo */}
@@ -11,4 +11,4 @@ const LoginLogo = () => {
   );
 };
 
-export default LoginLogo;
+export default Logo;

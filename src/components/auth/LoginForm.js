@@ -1,20 +1,46 @@
 import React, { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // react-icons'dan göz ikonlarını import ettik
+import { FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa"; // FaArrowRight ok simgesi ekledik
+import { useNavigate } from "react-router-dom"; // useNavigate kullanıyoruz
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate(); // navigate fonksiyonunu oluşturduk
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Giriş işlemi burada yapılır (örneğin API'ye veri gönderilebilir)
+    // Eğer giriş başarılıysa, kullanıcıyı dashboard sayfasına yönlendiriyoruz
+    navigate("/dashboard"); // Başarılı giriş sonrasında dashboard'a yönlendirme
+  };
+
+  const handleRegisterRedirect = () => {
+    navigate("/register"); // Kayıt sayfasına yönlendirme
+  };
+
   return (
     <div className="max-w-md w-full space-y-6 mt-20">
+      {/* Sağ üst köşe Kayıt Ol butonu */}
+      <div className="absolute top-4 right-4">
+        <button
+          onClick={handleRegisterRedirect}
+          className="flex items-center text-lg text-orange-600 hover:underline"
+        >
+          Kayıt Ol
+          <FaArrowRight className="ml-1 w-5 h-5" />
+        </button>
+      </div>
+
       <h2 className="text-3xl font-bold text-gray-800 text-center">Hoş Geldiniz</h2>
       <p className="text-center text-gray-500">
         E-ticaret dünyasına adım atın. Hesabınıza giriş yapın.
       </p>
-      <form className="space-y-6">
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Kullanıcı Adı veya E-Posta */}
         <div>
           <label
             htmlFor="username"
@@ -27,8 +53,11 @@ const LoginForm = () => {
             id="username"
             className="mt-1 block w-full p-4 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             placeholder="Kullanıcı Adı veya E-Posta"
+            required
           />
         </div>
+
+        {/* Şifre */}
         <div className="relative">
           <label
             htmlFor="password"
@@ -41,6 +70,7 @@ const LoginForm = () => {
             id="password"
             className="mt-1 block w-full p-4 pl-4 pr-12 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             placeholder="Şifre"
+            required
           />
           <button
             type="button"
@@ -54,14 +84,18 @@ const LoginForm = () => {
             )}
           </button>
         </div>
+
+        {/* Şifremi Unuttum */}
         <div className="flex items-center justify-between">
           <a
-            href="/panel/forgot-password"
+            href="/forgot-password"
             className="text-sm text-gray-500 hover:underline"
           >
-            Şifremi Unuttum
+            Şifremi Unuttum?
           </a>
         </div>
+
+        {/* Giriş Yap Butonu */}
         <div>
           <button
             type="submit"

@@ -9,6 +9,7 @@ import SidebarLayout from './layouts/SidebarLayout';
 import ProductList from './pages/products/productList';
 import ProductCategories from './pages/products/productCategories';
 import ProductStock from './pages/products/productStock';
+import RegisterPage from './pages/RegisterPage';
 
 
 function App() {
@@ -24,7 +25,9 @@ function App() {
     <Router>
       <Routes>
         {/* Login sayfası, Sidebar olmadan */}
-        <Route path="/panel/login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+
 
         {/* Sidebar ile sarılmış diğer sayfalar */}
         <Route element={<SidebarLayout />}>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const LoginImage = () => {
+const Image = () => {
   return (
     <div
       className="w-1/2 bg-cover bg-center"
@@ -13,4 +13,4 @@ const LoginImage = () => {
   );
 };
 
-export default LoginImage;
+export default Image;
