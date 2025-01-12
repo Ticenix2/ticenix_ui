@@ -12,6 +12,13 @@ import ProductStock from "./pages/products/productStock";
 import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
+// Profil tamamla sayfaları
+import ProfileComplete from "./pages/profile_complete/ProfileComplete";
+import BusinessInfo from "./pages/profile_complete/BusinessInfo";
+import ContactInfo from "./pages/profile_complete/ContactInfo";
+import PaymentInfo from "./pages/profile_complete/PaymentInfo";
+import Confirmation from "./pages/profile_complete/Confirmation";
+
 function App() {
   // useEffect(() => {
   //   axios.get("http://localhost:5260/api/CustomerDBs")
@@ -26,6 +33,25 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+
+        {/* Profil Tamamlama Sayfaları */}
+        <Route path="/profile-complete" element={<ProfileComplete />} />
+        <Route
+          path="/profile-complete/business-info"
+          element={<BusinessInfo />}
+        />
+        <Route
+          path="/profile-complete/contact-info"
+          element={<ContactInfo />}
+        />
+        <Route
+          path="/profile-complete/payment-info"
+          element={<PaymentInfo />}
+        />
+        <Route
+          path="/profile-complete/confirmation"
+          element={<Confirmation />}
+        />
 
         {/* Sidebar ile sarılmış diğer sayfalar */}
         <Route element={<SidebarLayout />}>

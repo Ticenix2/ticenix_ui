@@ -22,7 +22,7 @@ const LoginForm = () => {
       const response = await loginUser(userData); // loginUser fonksiyonu ile backend'e veri gönderiyoruz
 
       console.log("Giriş başarılı:", response);
-      navigate("/dashboard"); // Başarılı giriş sonrasında dashboard'a yönlendiriyoruz
+      navigate("/profile-complete"); // Başarılı giriş sonrasında dashboard'a yönlendiriyoruz
     } catch (err) {
       setError("Giriş işlemi sırasında bir hata oluştu.");
       console.error(err);
