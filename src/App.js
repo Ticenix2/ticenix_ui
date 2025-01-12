@@ -1,20 +1,18 @@
-import './App.css';
-import {useEffect} from "react";
-import axios from 'axios'
+import "./App.css";
+import { useEffect } from "react";
+import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/dashboard/dashboardPage';
-import ProductAdd from './pages/products/productAdd';
-import SidebarLayout from './layouts/SidebarLayout';
-import ProductList from './pages/products/productList';
-import ProductCategories from './pages/products/productCategories';
-import ProductStock from './pages/products/productStock';
-import RegisterPage from './pages/RegisterPage';
-
+import LoginPage from "./pages/LoginPage";
+import DashboardPage from "./pages/dashboard/dashboardPage";
+import ProductAdd from "./pages/products/productAdd";
+import SidebarLayout from "./layouts/SidebarLayout";
+import ProductList from "./pages/products/productList";
+import ProductCategories from "./pages/products/productCategories";
+import ProductStock from "./pages/products/productStock";
+import RegisterPage from "./pages/RegisterPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 function App() {
-
-
   // useEffect(() => {
   //   axios.get("http://localhost:5260/api/CustomerDBs")
   //   .then((response) => {
@@ -27,7 +25,7 @@ function App() {
         {/* Login sayfası, Sidebar olmadan */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* Sidebar ile sarılmış diğer sayfalar */}
         <Route element={<SidebarLayout />}>
@@ -36,10 +34,6 @@ function App() {
           <Route path="/products/list" element={<ProductList />} />
           <Route path="/products/categories" element={<ProductCategories />} />
           <Route path="/products/stock" element={<ProductStock />} />
-
-
-
-
         </Route>
       </Routes>
     </Router>
