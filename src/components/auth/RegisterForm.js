@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa"; // react-icons'dan göz ve ok ikonlarını import ettik
 import { useNavigate } from "react-router-dom"; // useNavigate kullanıyoruz
+import { registerUser } from "../../services/authService"; // authService'den registerUser fonksiyonunu import ediyoruz
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState(""); // Hata mesajı state'i
   const navigate = useNavigate(); // navigate fonksiyonunu oluşturduk
 
   const togglePasswordVisibility = () => {
@@ -15,11 +21,25 @@ const RegisterForm = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const handleSubmit = (e) => {
+  // Kayıt işlemi
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Kayıt işlemi burada yapılır (örneğin API'ye veri gönderilebilir)
-    // Eğer kayıt başarılıysa, kullanıcıyı login sayfasına yönlendiriyoruz
-    navigate("/login");
+
+    // Şifre ve Şifre Tekrarı kontrolü
+    if (password !== confirmPassword) {
+      setError("Şifreler uyuşmuyor.");
+      return;
+    }
+
+    try {
+      const userData = { username, email, password }; // Form verilerini bir araya getirdik
+      const response = await registerUser(userData); // registerUser fonksiyonu ile backend'e veri gönderiyoruz
+      console.log("Kayıt başarılı:", response);
+      navigate("/login"); // Kayıt başarılıysa login sayfasına yönlendiriyoruz
+    } catch (err) {
+      setError("Kayıt işlemi sırasında bir hata oluştu.");
+      console.error(err);
+    }
   };
 
   const handleLoginRedirect = () => {
@@ -43,6 +63,7 @@ const RegisterForm = () => {
       <p className="text-center text-gray-500">
         E-ticaret dünyasına katılın. Hesabınızı oluşturun.
       </p>
+      {error && <p className="text-red-500 text-sm text-center">{error}</p>} {/* Hata mesajı */}
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Kullanıcı Adı */}
         <div>
@@ -55,6 +76,8 @@ const RegisterForm = () => {
           <input
             type="text"
             id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)} // Kullanıcı adını state'e kaydediyoruz
             className="mt-1 block w-full p-4 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             placeholder="Kullanıcı Adı"
             required
@@ -72,6 +95,8 @@ const RegisterForm = () => {
           <input
             type="email"
             id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)} // E-Posta bilgisini state'e kaydediyoruz
             className="mt-1 block w-full p-4 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             placeholder="E-Posta"
             required
@@ -89,6 +114,8 @@ const RegisterForm = () => {
           <input
             type={showPassword ? "text" : "password"}
             id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} // Şifreyi state'e kaydediyoruz
             className="mt-1 block w-full p-4 pl-4 pr-12 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             placeholder="Şifre"
             required
@@ -117,6 +144,8 @@ const RegisterForm = () => {
           <input
             type={showConfirmPassword ? "text" : "password"}
             id="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)} // Şifreyi tekrar kaydediyoruz
             className="mt-1 block w-full p-4 pl-4 pr-12 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             placeholder="Şifreyi Tekrarla"
             required

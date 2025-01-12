@@ -1,20 +1,32 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa"; // FaArrowRight ok simgesi ekledik
 import { useNavigate } from "react-router-dom"; // useNavigate kullanıyoruz
+import { loginUser } from "../../services/authService"; // authService'den loginUser fonksiyonunu import ediyoruz
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [emailOrUsername, setEmailOrUsername] = useState(""); // E-posta veya kullanıcı adı
+  const [password, setPassword] = useState(""); // Şifre
+  const [error, setError] = useState(""); // Hata mesajı
   const navigate = useNavigate(); // navigate fonksiyonunu oluşturduk
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Giriş işlemi burada yapılır (örneğin API'ye veri gönderilebilir)
-    // Eğer giriş başarılıysa, kullanıcıyı dashboard sayfasına yönlendiriyoruz
-    navigate("/dashboard"); // Başarılı giriş sonrasında dashboard'a yönlendirme
+
+    try {
+      const userData = { emailOrUsername, password }; // Kullanıcı bilgilerini alıyoruz
+      const response = await loginUser(userData); // loginUser fonksiyonu ile backend'e veri gönderiyoruz
+
+      console.log("Giriş başarılı:", response);
+      navigate("/dashboard"); // Başarılı giriş sonrasında dashboard'a yönlendiriyoruz
+    } catch (err) {
+      setError("Giriş işlemi sırasında bir hata oluştu.");
+      console.error(err);
+    }
   };
 
   const handleRegisterRedirect = () => {
@@ -39,6 +51,8 @@ const LoginForm = () => {
         E-ticaret dünyasına adım atın. Hesabınıza giriş yapın.
       </p>
 
+      {error && <p className="text-red-500 text-sm text-center">{error}</p>} {/* Hata mesajı */}
+
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Kullanıcı Adı veya E-Posta */}
         <div>
@@ -51,6 +65,8 @@ const LoginForm = () => {
           <input
             type="text"
             id="username"
+            value={emailOrUsername}
+            onChange={(e) => setEmailOrUsername(e.target.value)} // Kullanıcı adı ya da e-posta bilgisini state'e kaydediyoruz
             className="mt-1 block w-full p-4 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             placeholder="Kullanıcı Adı veya E-Posta"
             required
@@ -68,6 +84,8 @@ const LoginForm = () => {
           <input
             type={showPassword ? "text" : "password"}
             id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} // Şifreyi state'e kaydediyoruz
             className="mt-1 block w-full p-4 pl-4 pr-12 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             placeholder="Şifre"
             required
