@@ -1,9 +1,10 @@
 import React from "react";
 import { FaUserCircle, FaRegAddressCard, FaUserTie, FaCreditCard, FaHome, FaSignOutAlt } from "react-icons/fa"; // Çıkış simgesi ekledik
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // useLocation ekledik
 
 const ProfileSidebar = ({ userName, email }) => {
   const navigate = useNavigate();
+  const location = useLocation(); // Aktif rota bilgisi almak için
 
   // Navigasyon işlevleri
   const goToBusinessInfo = () => navigate("/profile-complete/business-info");
@@ -21,6 +22,9 @@ const ProfileSidebar = ({ userName, email }) => {
     // Bu örnekte sadece anasayfaya yönlendirme yapıyoruz
     navigate("/login"); // Oturum kapatıldıktan sonra login sayfasına yönlendirme
   };
+
+  // Aktif menü öğesini belirlemek için aktif URL'yi kontrol etme
+  const isActive = (path) => location.pathname === path ? "bg-blue-700 text-white" : "bg-white text-gray-900 hover:bg-blue-100 hover:text-blue-700"; // Aktif öğe için stil
 
   return (
     <aside className="bg-white shadow-lg p-6 rounded-lg">
@@ -49,28 +53,28 @@ const ProfileSidebar = ({ userName, email }) => {
       <nav className="space-y-4">
         <button
           onClick={goToBusinessInfo}
-          className="w-full py-3 bg-blue-600 text-white font-medium rounded-lg shadow hover:bg-blue-700 transition duration-300"
+          className={`w-full py-3 ${isActive("/profile-complete/business-info")} font-medium rounded-lg shadow transition duration-300`}
         >
           <FaUserTie className="mr-2 inline-block" />
           İşletme Bilgileri
         </button>
         <button
           onClick={goToContactInfo}
-          className="w-full py-3 bg-blue-600 text-white font-medium rounded-lg shadow hover:bg-blue-700 transition duration-300"
+          className={`w-full py-3 ${isActive("/profile-complete/contact-info")} font-medium rounded-lg shadow transition duration-300`}
         >
           <FaRegAddressCard className="mr-2 inline-block" />
           İletişim Bilgileri
         </button>
         <button
           onClick={goToPaymentInfo}
-          className="w-full py-3 bg-blue-600 text-white font-medium rounded-lg shadow hover:bg-blue-700 transition duration-300"
+          className={`w-full py-3 ${isActive("/profile-complete/payment-info")} font-medium rounded-lg shadow transition duration-300`}
         >
           <FaCreditCard className="mr-2 inline-block" />
           Ödeme Bilgileri
         </button>
         <button
           onClick={goToConfirmation}
-          className="w-full py-3 bg-blue-600 text-white font-medium rounded-lg shadow hover:bg-blue-700 transition duration-300"
+          className={`w-full py-3 ${isActive("/profile-complete/confirmation")} font-medium rounded-lg shadow transition duration-300`}
         >
           Onay
         </button>
@@ -80,7 +84,7 @@ const ProfileSidebar = ({ userName, email }) => {
       <div className="mt-8 text-center">
         <button
           onClick={goToHome}
-          className="w-full py-3 bg-blue-500 text-white font-medium rounded-lg shadow hover:bg-blue-600 transition duration-300"
+          className={`w-full py-3 ${isActive("/profile-complete")} bg-blue-500 text-white font-medium rounded-lg shadow transition duration-300`}
         >
           <FaHome className="mr-2 inline-block" />
           Anasayfaya Git
