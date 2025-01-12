@@ -18,6 +18,7 @@ import BusinessInfo from "./pages/profile_complete/BusinessInfo";
 import ContactInfo from "./pages/profile_complete/ContactInfo";
 import PaymentInfo from "./pages/profile_complete/PaymentInfo";
 import Confirmation from "./pages/profile_complete/Confirmation";
+import ProfileSidebarLayout from "./layouts/ProfileSidebarLayout";
 
 function App() {
   // useEffect(() => {
@@ -36,22 +37,24 @@ function App() {
 
         {/* Profil Tamamlama Sayfaları */}
         <Route path="/profile-complete" element={<ProfileComplete />} />
-        <Route
-          path="/profile-complete/business-info"
-          element={<BusinessInfo />}
-        />
-        <Route
-          path="/profile-complete/contact-info"
-          element={<ContactInfo />}
-        />
-        <Route
-          path="/profile-complete/payment-info"
-          element={<PaymentInfo />}
-        />
-        <Route
-          path="/profile-complete/confirmation"
-          element={<Confirmation />}
-        />
+        <Route element={<ProfileSidebarLayout />}>
+          <Route
+            path="/profile-complete/business-info"
+            element={<BusinessInfo />}
+          />
+          <Route
+            path="/profile-complete/contact-info"
+            element={<ContactInfo />}
+          />
+          <Route
+            path="/profile-complete/payment-info"
+            element={<PaymentInfo />}
+          />
+          <Route
+            path="/profile-complete/confirmation"
+            element={<Confirmation />}
+          />
+        </Route>
 
         {/* Sidebar ile sarılmış diğer sayfalar */}
         <Route element={<SidebarLayout />}>
