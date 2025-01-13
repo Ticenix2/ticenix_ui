@@ -1,61 +1,152 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
+import { fetchProducts, updateProduct, deleteProduct } from '../../services/productService';
 
 function ProductList() {
   const [products, setProducts] = useState([]);
-
-  // Load products (you can fetch from an API or use a static list)
+  const [editProductId, setEditProductId] = useState(null);
+  const [editProductName, setEditProductName] = useState('');
+  const [editProductPrice, setEditProductPrice] = useState('');
+  const [editProductStock, setEditProductStock] = useState('');
+  
+  // Ürünleri al
   useEffect(() => {
-    // For now, I'll use a static list, but this can be replaced with a fetch request.
-    const fetchedProducts = [
-      { productName: 'Laptop', category: 'Elektronik', price: 5000, stock: 10, description: 'Laptop Açıklaması' },
-      { productName: 'T-shirt', category: 'Giyim', price: 100, stock: 50, description: 'T-shirt Açıklaması' },
-    ];
-    setProducts(fetchedProducts);
+    const loadProducts = async () => {
+      try {
+        const productData = await fetchProducts();
+        setProducts(productData);
+      } catch (error) {
+        console.error('Ürünler alınırken bir hata oluştu', error);
+      }
+    };
+    loadProducts();
   }, []);
 
+  // Ürün güncelle
+  const handleEditProduct = async (productId) => {
+    if (!editProductName.trim() || !editProductPrice || !editProductStock) return;
+
+    try {
+      const updatedProduct = {
+        productName: editProductName,
+        price: editProductPrice,
+        stock: editProductStock,
+      };
+      await updateProduct(productId, updatedProduct);
+      setProducts(products.map(product => 
+        product.productId === productId ? { ...product, productName: editProductName, price: editProductPrice, stock: editProductStock } : product
+      ));
+      setEditProductId(null);
+      setEditProductName('');
+      setEditProductPrice('');
+      setEditProductStock('');
+      alert('Ürün başarıyla güncellendi!');
+    } catch (error) {
+      alert('Ürün güncellenirken bir hata oluştu');
+    }
+  };
+
+  // Ürün sil
+  const handleDeleteProduct = async (productId) => {
+    try {
+      await deleteProduct(productId);
+      setProducts(products.filter(product => product.productId !== productId));
+      alert('Ürün başarıyla silindi!');
+    } catch (error) {
+      alert('Ürün silinirken bir hata oluştu');
+    }
+  };
+
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Ürün Listesi</h1>
-
-      {/* Bağlantı: Ürün Ekleme Sayfasına Git */}
-      <Link to="/products/add">
-        <button className="mb-6 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">
-          Yeni Ürün Ekle
-        </button>
-      </Link>
-
-      {/* Ürün Listesi */}
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Mevcut Ürünler</h2>
-        <table className="min-w-full table-auto bg-white shadow-md rounded-lg overflow-hidden">
-          <thead className="bg-gray-200">
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-semibold text-gray-900 mb-6">Ürün Listesi</h1>
+      
+      {/* Ürünler Listesi */}
+      <div className="bg-white shadow-lg rounded-lg p-6">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">Ürünler</h2>
+        <table className="min-w-full table-auto">
+          <thead>
             <tr>
-              <th className="py-2 px-4 text-left">Ürün Adı</th>
-              <th className="py-2 px-4 text-left">Kategori</th>
-              <th className="py-2 px-4 text-left">Fiyat (₺)</th>
-              <th className="py-2 px-4 text-left">Stok</th>
-              <th className="py-2 px-4 text-left">Açıklama</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Ürün Adı</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Fiyat</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Stok</th>
+              <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600">İşlemler</th>
             </tr>
           </thead>
           <tbody>
-            {products.length === 0 ? (
-              <tr>
-                <td colSpan="5" className="text-center py-4 text-gray-500">
-                  Henüz ürün eklenmemiş.
-                </td>
+            {products.map((product) => (
+              <tr key={product.productId} className="border-b">
+                {editProductId === product.productId ? (
+                  <>
+                    <td className="px-6 py-4">
+                      <input
+                        type="text"
+                        value={editProductName}
+                        onChange={(e) => setEditProductName(e.target.value)}
+                        className="p-2 border border-gray-300 rounded-md"
+                        required
+                      />
+                    </td>
+                    <td className="px-6 py-4">
+                      <input
+                        type="number"
+                        value={editProductPrice}
+                        onChange={(e) => setEditProductPrice(e.target.value)}
+                        className="p-2 border border-gray-300 rounded-md"
+                        required
+                      />
+                    </td>
+                    <td className="px-6 py-4">
+                      <input
+                        type="number"
+                        value={editProductStock}
+                        onChange={(e) => setEditProductStock(e.target.value)}
+                        className="p-2 border border-gray-300 rounded-md"
+                        required
+                      />
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <button
+                        onClick={() => handleEditProduct(product.productId)}
+                        className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                      >
+                        Güncelle
+                      </button>
+                      <button
+                        onClick={() => setEditProductId(null)}
+                        className="ml-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700"
+                      >
+                        İptal
+                      </button>
+                    </td>
+                  </>
+                ) : (
+                  <>
+                    <td className="px-6 py-4 text-sm font-medium text-gray-900">{product.productName}</td>
+                    <td className="px-6 py-4 text-sm font-medium text-gray-900">{product.price} ₺</td>
+                    <td className="px-6 py-4 text-sm font-medium text-gray-900">{product.stock}</td>
+                    <td className="px-6 py-4 text-center">
+                      <button
+                        onClick={() => {
+                          setEditProductId(product.productId);
+                          setEditProductName(product.productName);
+                          setEditProductPrice(product.price);
+                          setEditProductStock(product.stock);
+                        }}
+                        className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+                      >
+                        Düzenle
+                      </button>
+                      <button
+                        onClick={() => handleDeleteProduct(product.productId)}
+                        className="ml-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                      >
+                        Sil
+                      </button>
+                    </td>
+                  </>
+                )}
               </tr>
-            ) : (
-              products.map((product, index) => (
-                <tr key={index} className="border-b">
-                  <td className="py-2 px-4">{product.productName}</td>
-                  <td className="py-2 px-4">{product.category}</td>
-                  <td className="py-2 px-4">{product.price} ₺</td>
-                  <td className="py-2 px-4">{product.stock}</td>
-                  <td className="py-2 px-4">{product.description}</td>
-                </tr>
-              ))
-            )}
+            ))}
           </tbody>
         </table>
       </div>

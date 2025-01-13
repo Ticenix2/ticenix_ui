@@ -66,3 +66,25 @@ export const fetchProductById = async (productId) => {
     throw error;
   }
 };
+
+// Ürün stok güncelleme
+export const updateProductStock = async (productId, stockData) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/products/${productId}/stock`, stockData);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating product stock:', error);
+    throw error;
+  }
+};
+
+// Ürün stok miktarını almak
+export const fetchProductStock = async (productId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/products/${productId}/stock`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching product stock:', error);
+    throw error;
+  }
+};
