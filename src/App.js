@@ -19,6 +19,7 @@ import ContactInfo from "./pages/profile_complete/ContactInfo";
 import PaymentInfo from "./pages/profile_complete/PaymentInfo";
 import Confirmation from "./pages/profile_complete/Confirmation";
 import ProfileSidebarLayout from "./layouts/ProfileSidebarLayout";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   // useEffect(() => {
@@ -64,6 +65,8 @@ function App() {
           <Route path="/products/categories" element={<ProductCategories />} />
           <Route path="/products/stock" element={<ProductStock />} />
         </Route>
+
+        <Route path="/admin/*" element={<AdminPage />} />
       </Routes>
     </Router>
   );
