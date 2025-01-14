@@ -25,6 +25,9 @@ import DashboardMonthly from "./pages/dashboard/dashboardMonthly";
 import DashboardOrders from "./pages/dashboard/dashboardOrders";
 import DashboardSales from "./pages/dashboard/dashboardSales";
 import DashboardDaily from "./pages/dashboard/dashboardDaily";
+import NewOrders from "./pages/orders/NewOrders";
+import OrderHistory from "./pages/orders/OrderHistory";
+import OrderStatuses from "./pages/orders/OrderStatuses";
 
 function App() {
   // useEffect(() => {
@@ -71,12 +74,23 @@ function App() {
           <Route path="/products/stock" element={<ProductStock />} />
           <Route path="/products/stock" element={<ProductStock />} />
 
-
-          <Route path="/dashboard/annual-statistics" element={<DashboardAnnual />} />
-          <Route path="/dashboard/daily-statistics" element={<DashboardDaily />} />
-          <Route path="/dashboard/monthly-statistics" element={<DashboardMonthly />} />
+          <Route
+            path="/dashboard/annual-statistics"
+            element={<DashboardAnnual />}
+          />
+          <Route
+            path="/dashboard/daily-statistics"
+            element={<DashboardDaily />}
+          />
+          <Route
+            path="/dashboard/monthly-statistics"
+            element={<DashboardMonthly />}
+          />
           <Route path="/dashboard/orders" element={<DashboardOrders />} />
           <Route path="/dashboard/sales" element={<DashboardSales />} />
+          <Route path="/orders/new" element={<NewOrders />} />
+          <Route path="/orders/status" element={<OrderStatuses />} />
+          <Route path="/orders/history" element={<OrderHistory />} />
         </Route>
 
         <Route path="/admin/*" element={<AdminPage />} />
