@@ -44,8 +44,7 @@ const MainMenu = [
       { label: 'Stok Yönetimi', path: '/products/stock' },
       { label: 'Fiyat Değişiklikleri', path: '/products/pricing' },
       { label: 'Ürün Görselleri', path: '/products/images' },
-      { label: 'Ürün İncelemeleri', path: '/products/reviews' },
-      { label: 'Ürün Önerileri', path: '/products/suggestions' }
+      { label: 'Ürün İncelemeleri', path: '/products/reviews' }
     ]
   },
   {

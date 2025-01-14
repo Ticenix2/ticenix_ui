@@ -28,6 +28,9 @@ import DashboardDaily from "./pages/dashboard/dashboardDaily";
 import NewOrders from "./pages/orders/NewOrders";
 import OrderHistory from "./pages/orders/OrderHistory";
 import OrderStatuses from "./pages/orders/OrderStatuses";
+import PriceChanges from "./pages/products/priceChanges";
+import ProductImages from "./pages/products/productImages";
+import ProductReviews from "./pages/products/productReviews";
 
 function App() {
   // useEffect(() => {
@@ -72,7 +75,12 @@ function App() {
           <Route path="/products/list" element={<ProductList />} />
           <Route path="/products/categories" element={<ProductCategories />} />
           <Route path="/products/stock" element={<ProductStock />} />
-          <Route path="/products/stock" element={<ProductStock />} />
+          <Route path="/products/pricing" element={<PriceChanges />} />
+          <Route path="/products/images" element={<ProductImages />} />
+          <Route path="/products/reviews" element={<ProductReviews />} />
+
+
+
 
           <Route
             path="/dashboard/annual-statistics"
@@ -91,6 +99,7 @@ function App() {
           <Route path="/orders/new" element={<NewOrders />} />
           <Route path="/orders/status" element={<OrderStatuses />} />
           <Route path="/orders/history" element={<OrderHistory />} />
+          
         </Route>
 
         <Route path="/admin/*" element={<AdminPage />} />
