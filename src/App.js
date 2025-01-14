@@ -20,6 +20,11 @@ import PaymentInfo from "./pages/profile_complete/PaymentInfo";
 import Confirmation from "./pages/profile_complete/Confirmation";
 import ProfileSidebarLayout from "./layouts/ProfileSidebarLayout";
 import AdminPage from "./pages/AdminPage";
+import DashboardAnnual from "./pages/dashboard/dashboardAnnual";
+import DashboardMonthly from "./pages/dashboard/dashboardMonthly";
+import DashboardOrders from "./pages/dashboard/dashboardOrders";
+import DashboardSales from "./pages/dashboard/dashboardSales";
+import DashboardDaily from "./pages/dashboard/dashboardDaily";
 
 function App() {
   // useEffect(() => {
@@ -64,6 +69,14 @@ function App() {
           <Route path="/products/list" element={<ProductList />} />
           <Route path="/products/categories" element={<ProductCategories />} />
           <Route path="/products/stock" element={<ProductStock />} />
+          <Route path="/products/stock" element={<ProductStock />} />
+
+
+          <Route path="/dashboard/annual-statistics" element={<DashboardAnnual />} />
+          <Route path="/dashboard/daily-statistics" element={<DashboardDaily />} />
+          <Route path="/dashboard/monthly-statistics" element={<DashboardMonthly />} />
+          <Route path="/dashboard/orders" element={<DashboardOrders />} />
+          <Route path="/dashboard/sales" element={<DashboardSales />} />
         </Route>
 
         <Route path="/admin/*" element={<AdminPage />} />

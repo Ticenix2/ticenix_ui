@@ -16,9 +16,9 @@ const MainMenu = [
     label: 'Genel İstatistikler',
     icon: <FaChartBar className="text-xl" />,
     subMenu: [
-      { label: 'Toplam Satışlar', path: '/dashboard/sales' },
-      { label: 'Aktif Kullanıcılar', path: '/dashboard/active-users' },
       { label: 'Toplam Siparişler', path: '/dashboard/orders' },
+      { label: 'Toplam Satışlar', path: '/dashboard/sales' },
+      { label: 'Günlük İstatistikler', path: '/dashboard/daily-statistics' },
       { label: 'Aylık İstatistikler', path: '/dashboard/monthly-statistics' },
       { label: 'Yıllık İstatistikler', path: '/dashboard/annual-statistics' }
     ]
