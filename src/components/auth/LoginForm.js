@@ -1,74 +1,74 @@
 import React, { useState } from "react";
-import { FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa"; // FaArrowRight ok simgesi ekledik
-import { useNavigate } from "react-router-dom"; // useNavigate kullanıyoruz
-import { loginUser } from "../../services/authService"; // authService'den loginUser fonksiyonunu import ediyoruz
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { loginCustomer, loginAdmin } from "../../services/authService";
 
 const LoginForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [emailOrUsername, setEmailOrUsername] = useState(""); // E-posta veya kullanıcı adı
-  const [password, setPassword] = useState(""); // Şifre
-  const [error, setError] = useState(""); // Hata mesajı
-  const navigate = useNavigate(); // navigate fonksiyonunu oluşturduk
+  const [error, setError] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false); // Kullanıcının admin mi yoksa müşteri mi olduğunu belirler
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prev) => !prev);
   };
 
+  // Giriş işlemi
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
     try {
-      const userData = { emailOrUsername, password }; // Kullanıcı bilgilerini alıyoruz
-      const response = await loginUser(userData); // loginUser fonksiyonu ile backend'e veri gönderiyoruz
+      let response;
 
-      console.log("Giriş başarılı:", response);
-      navigate("/profile-complete"); // Başarılı giriş sonrasında dashboard'a yönlendiriyoruz
+      if (isAdmin) {
+        // Admin girişi
+        response = await loginAdmin({ email, password });
+        console.log("Admin girişi başarılı:", response);
+        navigate("/admin/dashboard"); // Admin sayfasına yönlendir
+      } else {
+        // Müşteri girişi
+        response = await loginCustomer({ email, password });
+        console.log("Müşteri girişi başarılı:", response);
+        navigate("/profile-complete"); // Ana sayfaya yönlendir
+      }
     } catch (err) {
-      setError("Giriş işlemi sırasında bir hata oluştu.");
+      setError(
+        err.response?.data?.message ||
+          "Giriş işlemi sırasında bir hata oluştu."
+      );
       console.error(err);
     }
   };
 
-  const handleRegisterRedirect = () => {
-    navigate("/register"); // Kayıt sayfasına yönlendirme
-  };
-
   return (
-    <div className="max-w-md w-full space-y-6 mt-20">
-      {/* Sağ üst köşe Kayıt Ol butonu */}
-      <div className="absolute top-4 right-4">
-        <button
-          onClick={handleRegisterRedirect}
-          className="flex items-center text-lg text-orange-600 hover:underline"
-        >
-          Kayıt Ol
-          <FaArrowRight className="ml-1 w-5 h-5" />
-        </button>
-      </div>
-
-      <h2 className="text-3xl font-bold text-gray-800 text-center">Hoş Geldiniz</h2>
+    <div className="max-w-md w-full mx-auto mt-20 p-6 bg-white rounded-lg shadow-md space-y-6">
+      <h2 className="text-3xl font-bold text-gray-800 text-center">Giriş Yap</h2>
       <p className="text-center text-gray-500">
-        E-ticaret dünyasına adım atın. Hesabınıza giriş yapın.
+        Hesabınıza giriş yaparak alışverişe başlayın.
       </p>
 
-      {error && <p className="text-red-500 text-sm text-center">{error}</p>} {/* Hata mesajı */}
+      {/* Hata mesajı */}
+      {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Kullanıcı Adı veya E-Posta */}
+        {/* E-Posta */}
         <div>
           <label
-            htmlFor="username"
+            htmlFor="email"
             className="block text-sm font-medium text-gray-700"
           >
-            Kullanıcı Adı veya E-Posta
+            E-Posta
           </label>
           <input
-            type="text"
-            id="username"
-            value={emailOrUsername}
-            onChange={(e) => setEmailOrUsername(e.target.value)} // Kullanıcı adı ya da e-posta bilgisini state'e kaydediyoruz
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="mt-1 block w-full p-4 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-            placeholder="Kullanıcı Adı veya E-Posta"
+            placeholder="E-Posta"
             required
           />
         </div>
@@ -85,7 +85,7 @@ const LoginForm = () => {
             type={showPassword ? "text" : "password"}
             id="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)} // Şifreyi state'e kaydediyoruz
+            onChange={(e) => setPassword(e.target.value)}
             className="mt-1 block w-full p-4 pl-4 pr-12 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             placeholder="Şifre"
             required
@@ -103,14 +103,18 @@ const LoginForm = () => {
           </button>
         </div>
 
-        {/* Şifremi Unuttum */}
-        <div className="flex items-center justify-between">
-          <a
-            href="/forgot-password"
-            className="text-sm text-gray-500 hover:underline"
-          >
-            Şifremi Unuttum?
-          </a>
+        {/* Admin Girişi Toggle */}
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="isAdmin"
+            checked={isAdmin}
+            onChange={() => setIsAdmin((prev) => !prev)}
+            className="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
+          />
+          <label htmlFor="isAdmin" className="ml-2 text-sm text-gray-600">
+            Admin olarak giriş yap
+          </label>
         </div>
 
         {/* Giriş Yap Butonu */}
@@ -123,6 +127,17 @@ const LoginForm = () => {
           </button>
         </div>
       </form>
+
+      {/* Kayıt ol linki */}
+      <p className="text-center text-sm text-gray-600">
+        Henüz bir hesabınız yok mu?{" "}
+        <button
+          onClick={() => navigate("/register")}
+          className="text-orange-600 hover:underline"
+        >
+          Kayıt Ol
+        </button>
+      </p>
     </div>
   );
 };

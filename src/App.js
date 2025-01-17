@@ -34,7 +34,7 @@ import ProductReviews from "./pages/products/productReviews";
 
 function App() {
   // useEffect(() => {
-  //   axios.get("http://localhost:5260/api/CustomerDBs")
+  //   axios.get("http://localhost:5260/api/Categorywin")
   //   .then((response) => {
   //     console.log(response.data)
   //   })

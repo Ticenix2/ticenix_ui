@@ -2,12 +2,12 @@
 import axios from "axios";
 
 // API'nin temel URL'ini buraya ekleyebilirsiniz
-const API_URL = "https://api.example.com"; 
+const API_URL = "http://localhost:5260/api/";
 
-// Kayıt olma işlemi
+// Müşteri kaydı
 export const registerUser = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/register`, userData);
+    const response = await axios.post(`${API_URL}/customer/register`, userData);
     return response.data;
   } catch (error) {
     console.error("Kayıt sırasında hata oluştu:", error);
@@ -15,21 +15,32 @@ export const registerUser = async (userData) => {
   }
 };
 
-// Giriş yapma işlemi
-export const loginUser = async (userData) => {
+// Müşteri girişi
+export const loginCustomer = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, userData);
+    const response = await axios.post(`${API_URL}/customer/login`, userData);
     return response.data;
   } catch (error) {
-    console.error("Giriş sırasında hata oluştu:", error);
+    console.error("Müşteri girişi sırasında hata oluştu:", error);
     throw error;
   }
 };
 
-// Şifre sıfırlama işlemi
+// Admin girişi
+export const loginAdmin = async (adminData) => {
+  try {
+    const response = await axios.post(`${API_URL}/admin/login`, adminData);
+    return response.data;
+  } catch (error) {
+    console.error("Admin girişi sırasında hata oluştu:", error);
+    throw error;
+  }
+};
+
+// Şifre sıfırlama (müşteriler için)
 export const resetPassword = async (email) => {
   try {
-    const response = await axios.post(`${API_URL}/reset-password`, { email });
+    const response = await axios.post(`${API_URL}/customer/reset-password`, { email });
     return response.data;
   } catch (error) {
     console.error("Şifre sıfırlama sırasında hata oluştu:", error);
