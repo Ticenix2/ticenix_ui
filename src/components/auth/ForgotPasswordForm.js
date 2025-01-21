@@ -1,21 +1,29 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // useNavigate kullanıyoruz
-import { resetPassword } from "../../services/authService"; // authService'den resetPassword fonksiyonunu import ediyoruz
+import { useNavigate } from "react-router-dom";
+import { resetAdminPassword, resetCustomerPassword } from "../../services/authService"; // İlgili servisleri import ediyoruz
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("customer"); // Varsayılan rol "customer"
   const [message, setMessage] = useState("");
-  const [error, setError] = useState(""); // Hata mesajları için state ekliyoruz
-  const navigate = useNavigate(); // navigate fonksiyonunu oluşturduk
+  const [error, setError] = useState(""); // Hata mesajları için state
+  const navigate = useNavigate(); // Sayfa yönlendirme için kullanılıyor
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await resetPassword({ email }); // E-posta adresini authService'e gönderiyoruz
-      setMessage(response.message); // Başarılı işlem sonrası gelen mesajı gösteriyoruz
+      if (role === "customer") {
+        // Müşteri için şifre sıfırlama
+        const response = await resetCustomerPassword({ email });
+        setMessage(response.message);
+      } else if (role === "admin") {
+        // Admin için şifre sıfırlama
+        const response = await resetAdminPassword({ email });
+        setMessage(response.message);
+      }
 
-      // Şifre sıfırlama işlemi başarılı ise, kullanıcıyı login sayfasına yönlendiriyoruz
+      // Başarılı işlem sonrası kullanıcıyı login sayfasına yönlendiriyoruz
       setTimeout(() => {
         navigate("/login");
       }, 2000);
@@ -29,7 +37,7 @@ const ForgotPasswordForm = () => {
     <div className="max-w-md w-full space-y-6 mt-20">
       <h2 className="text-3xl font-bold text-gray-800 text-center">Şifremi Unuttum</h2>
       <p className="text-center text-gray-500">
-        Şifrenizi sıfırlamak için e-posta adresinizi girin.
+        Şifrenizi sıfırlamak için rolünüzü seçin ve e-posta adresinizi girin.
       </p>
       
       {/* Mesajlar */}
@@ -45,6 +53,26 @@ const ForgotPasswordForm = () => {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Rol seçimi */}
+        <div>
+          <label
+            htmlFor="role"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Rolünüz
+          </label>
+          <select
+            id="role"
+            className="mt-1 block w-full p-4 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            value={role}
+            onChange={(e) => setRole(e.target.value)} // Rol bilgisini state'e kaydediyoruz
+            required
+          >
+            <option value="customer">Müşteri</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
         {/* E-Posta */}
         <div>
           <label
