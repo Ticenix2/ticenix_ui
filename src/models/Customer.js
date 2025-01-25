@@ -22,6 +22,7 @@ class Customer {
       };
     }
   
+    
     // Backend'den gelen verilerle Customer modelini oluşturur
     static fromJSON(jsonData) {
       return new Customer(

@@ -31,6 +31,7 @@ import OrderStatuses from "./pages/orders/OrderStatuses";
 import PriceChanges from "./pages/products/priceChanges";
 import ProductImages from "./pages/products/productImages";
 import ProductReviews from "./pages/products/productReviews";
+import PaymentSettings from "./pages/Settings/PaymentSettings";
 
 function App() {
   // useEffect(() => {
@@ -78,6 +79,8 @@ function App() {
           <Route path="/products/pricing" element={<PriceChanges />} />
           <Route path="/products/images" element={<ProductImages />} />
           <Route path="/products/reviews" element={<ProductReviews />} />
+          <Route path="/settings/payment" element={<PaymentSettings />} />
+
 
 
 
