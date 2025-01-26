@@ -37,7 +37,7 @@ const Navbar = () => {
               İletişim
             </a>
             <a
-              href="#demo"
+              href="#contact"
               className="hover:text-orange-200 text-lg font-medium transition-all duration-200"
             >
               Demo Talep Et

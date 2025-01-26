@@ -26,10 +26,10 @@ const Hero = () => {
 
         <div className="mt-6 space-x-4">
           <a
-            href="#demo"
+            href="/register"
             className="bg-white text-orange-600 px-8 py-3 rounded-lg text-xl font-semibold shadow-lg hover:bg-gray-100 transition duration-200"
           >
-            Demo Talep Et
+            Kayıt ol
           </a>
           <a
             href="#features"

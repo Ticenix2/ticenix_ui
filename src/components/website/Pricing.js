@@ -133,7 +133,7 @@ const Pricing = () => {
               {/* Call to Action */}
               <div className="mt-10 text-center">
                 <a
-                  href="#demo"
+                  href="#contact"
                   className="bg-orange-600 text-white px-10 py-4 rounded-lg text-lg font-semibold hover:bg-orange-700 transition"
                 >
                   Demo Talep Et
