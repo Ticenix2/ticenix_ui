@@ -36,6 +36,8 @@ import ShippingIntegration from "./pages/Settings/ShippingIntegration";
 import SystemSettings from "./pages/Settings/SystemSettings";
 import SEOSettings from "./pages/Settings/SEOSettings";
 import EmailNotifications from "./pages/Settings/EmailNotifications";
+import ThemeSelection from "./pages/theme/ThemeSelection";
+import ThemeSettings from "./pages/theme/ThemeSettings";
 
 function App() {
   // useEffect(() => {
@@ -88,6 +90,10 @@ function App() {
           <Route path="/settings/system" element={<SystemSettings />} />
           <Route path="/settings/seo" element={<SEOSettings />} />
           <Route path="/settings/email-notifications" element={<EmailNotifications />} />
+          <Route path="/theme/theme-selection" element={<ThemeSelection />} />
+          <Route path="/theme/theme-settings" element={<ThemeSettings />} />
+          
+
 
 
 

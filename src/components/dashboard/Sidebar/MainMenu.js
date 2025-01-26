@@ -79,8 +79,8 @@ const MainMenu = [
     label: 'Tema Yönetimi',
     icon: <FaPaintBrush className="text-xl" />,
     subMenu: [
-      { label: 'Tema Seçimi', path: '/settings/theme-selection' }, // Tema seçimi
-      { label: 'Tema Ayarları', path: '/settings/theme-settings' } // Tema ayarları
+      { label: 'Tema Seçimi', path: '/theme/theme-selection' }, // Tema seçimi
+      { label: 'Tema Ayarları', path: '/theme/theme-settings' } // Tema ayarları
     ]
   },
   {
