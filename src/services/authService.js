@@ -7,7 +7,7 @@ const API_URL = "http://localhost:5000/api";
 // Müşteri kaydı
 export const registerUser = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/customer`, userData); // Customer register API çağrısı
+    const response = await axios.post(`${API_URL}/customer/register`, userData); // Customer register API çağrısı
     return response.data;
   } catch (error) {
     console.error("Kayıt sırasında hata oluştu:", error);
@@ -18,7 +18,7 @@ export const registerUser = async (userData) => {
 // Müşteri girişi
 export const loginCustomer = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/customer`, userData); // Customer login API çağrısı
+    const response = await axios.post(`${API_URL}/customer/login`, userData); // Customer login API çağrısı
     return response.data;
   } catch (error) {
     console.error("Müşteri girişi sırasında hata oluştu:", error);

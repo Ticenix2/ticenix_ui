@@ -45,6 +45,8 @@ import SEOPerformance from "./pages/seo/SEOPerformance";
 import SEOImprovements from "./pages/seo/SEOImprovements";
 import SEOTargeting from "./pages/seo/SEOTargeting";
 import SupportTickets from "./pages/support/SupportTickets";
+import HomePage from "./pages/HomePage";
+
 
 function App() {
   // useEffect(() => {
@@ -57,6 +59,7 @@ function App() {
     <Router>
       <Routes>
         {/* Login sayfası, Sidebar olmadan */}
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
