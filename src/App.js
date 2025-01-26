@@ -34,6 +34,7 @@ import ProductReviews from "./pages/products/productReviews";
 import PaymentSettings from "./pages/Settings/PaymentSettings";
 import ShippingIntegration from "./pages/Settings/ShippingIntegration";
 import SystemSettings from "./pages/Settings/SystemSettings";
+import SEOSettings from "./pages/Settings/SEOSettings";
 
 function App() {
   // useEffect(() => {
@@ -84,6 +85,8 @@ function App() {
           <Route path="/settings/payment" element={<PaymentSettings />} />
           <Route path="/settings/shipping" element={<ShippingIntegration />} />
           <Route path="/settings/system" element={<SystemSettings />} />
+          <Route path="/settings/seo" element={<SEOSettings />} />
+
 
 
 
