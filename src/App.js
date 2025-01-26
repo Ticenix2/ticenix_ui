@@ -44,6 +44,7 @@ import SEOMetaTags from "./pages/seo/SEOMetaTags";
 import SEOPerformance from "./pages/seo/SEOPerformance";
 import SEOImprovements from "./pages/seo/SEOImprovements";
 import SEOTargeting from "./pages/seo/SEOTargeting";
+import SupportTickets from "./pages/support/SupportTickets";
 
 function App() {
   // useEffect(() => {
@@ -104,8 +105,10 @@ function App() {
           <Route path="/seo/performance" element={<SEOPerformance/>} />
           <Route path="/seo/improvements" element={<SEOImprovements />} />
           <Route path="/seo/targeting" element={<SEOTargeting/>} />
+          <Route path="/support/tickets" element={<SupportTickets/>} />
 
 
+          
 
           
 
