@@ -41,6 +41,9 @@ import ThemeSettings from "./pages/theme/ThemeSettings";
 import SEOOverview from "./pages/seo/SEOOverview";
 import SEOKeywordManagement from "./pages/seo/SEOKeywordManagement";
 import SEOMetaTags from "./pages/seo/SEOMetaTags";
+import SEOPerformance from "./pages/seo/SEOPerformance";
+import SEOImprovements from "./pages/seo/SEOImprovements";
+import SEOTargeting from "./pages/seo/SEOTargeting";
 
 function App() {
   // useEffect(() => {
@@ -98,8 +101,13 @@ function App() {
           <Route path="/seo/overview" element={<SEOOverview />} />
           <Route path="/seo/keywords" element={<SEOKeywordManagement />} />
           <Route path="/seo/meta-tags" element={<SEOMetaTags />} />
+          <Route path="/seo/performance" element={<SEOPerformance/>} />
+          <Route path="/seo/improvements" element={<SEOImprovements />} />
+          <Route path="/seo/targeting" element={<SEOTargeting/>} />
 
 
+
+          
 
           
 
