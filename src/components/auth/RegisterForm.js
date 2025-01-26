@@ -182,7 +182,7 @@ const RegisterForm = () => {
       {/* Hesap var mı? Giriş yap linki */}
       <div className="text-center mt-4">
         <p className="text-center text-sm text-gray-600">
-        Henüz bir hesabınız yok mu?{" "}
+        Hesabınız var mı?{" "}
         <button
           onClick={() => navigate("/login")}
           className="text-orange-600 hover:underline"
