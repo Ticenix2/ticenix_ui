@@ -46,6 +46,8 @@ import SEOImprovements from "./pages/seo/SEOImprovements";
 import SEOTargeting from "./pages/seo/SEOTargeting";
 import SupportTickets from "./pages/support/SupportTickets";
 import HomePage from "./pages/HomePage";
+import DemoHomePage from "./pages/demo/HomePage";
+
 
 
 function App() {
@@ -147,6 +149,11 @@ function App() {
         </Route>
 
         <Route path="/admin/*" element={<AdminPage />} />
+
+
+        <Route path="/demo" element={<DemoHomePage/>} />
+
+
       </Routes>
     </Router>
   );

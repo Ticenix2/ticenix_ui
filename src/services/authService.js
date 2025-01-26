@@ -2,7 +2,7 @@
 import axios from "axios";
 
 // API'nin temel URL'ini buraya ekleyebilirsiniz
-const API_URL = "http://localhost:5000/api";
+const API_URL = "http://localhost:5260/api";
 
 // Müşteri kaydı
 export const registerUser = async (userData) => {
