@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/authService";
 
@@ -14,7 +14,6 @@ const RegisterForm = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
-  // Şifre görünürlüğü değiştir
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
@@ -23,25 +22,22 @@ const RegisterForm = () => {
     setShowConfirmPassword((prev) => !prev);
   };
 
-  // Form gönderme işlemi
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccessMessage("");
 
-    // Şifre doğrulama
     if (password !== confirmPassword) {
       setError("Şifreler uyuşmuyor.");
       return;
     }
 
     try {
-      // Kullanıcı bilgilerini backend'e gönder
-      const userData = { username, email, password }; // Role bilgisi eklenmiyor, backend'de otomatik olarak 'customer' atanacak
+      const userData = { username, email, password };
       await registerUser(userData);
 
       setSuccessMessage("Kayıt başarılı! Giriş yapabilirsiniz.");
-      setTimeout(() => navigate("/login"), 2000); // 2 saniye sonra login sayfasına yönlendir
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       setError(
         err.response?.data?.message || "Kayıt işlemi sırasında bir hata oluştu."
@@ -50,37 +46,23 @@ const RegisterForm = () => {
     }
   };
 
-  // Giriş yap sayfasına yönlendirme
   const handleLoginRedirect = () => {
     navigate("/login");
   };
 
   return (
     <div className="max-w-md w-full mx-auto mt-20 p-6 bg-white rounded-lg shadow-md space-y-6">
-      {/* Sağ üst köşe Giriş Yap butonu */}
-      <div className="absolute top-4 right-4">
-        <button
-          onClick={handleLoginRedirect}
-          className="flex items-center text-lg text-orange-600 hover:underline"
-        >
-          Giriş Yap
-          <FaArrowRight className="ml-1 w-5 h-5" />
-        </button>
-      </div>
-
       <h2 className="text-3xl font-bold text-gray-800 text-center">Kayıt Ol</h2>
       <p className="text-center text-gray-500">
         E-ticaret dünyasına katılın. Hesabınızı oluşturun.
       </p>
 
-      {/* Hata ve başarı mesajları */}
       {error && <p className="text-red-500 text-sm text-center">{error}</p>}
       {successMessage && (
         <p className="text-green-500 text-sm text-center">{successMessage}</p>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Kullanıcı Adı */}
         <div>
           <label
             htmlFor="username"
@@ -99,7 +81,6 @@ const RegisterForm = () => {
           />
         </div>
 
-        {/* E-Posta */}
         <div>
           <label
             htmlFor="email"
@@ -118,7 +99,6 @@ const RegisterForm = () => {
           />
         </div>
 
-        {/* Şifre */}
         <div className="relative">
           <label
             htmlFor="password"
@@ -148,7 +128,6 @@ const RegisterForm = () => {
           </button>
         </div>
 
-        {/* Şifre Tekrar */}
         <div className="relative">
           <label
             htmlFor="confirmPassword"
@@ -178,7 +157,6 @@ const RegisterForm = () => {
           </button>
         </div>
 
-        {/* Kullanıcı Sözleşmesi */}
         <div className="flex items-center">
           <input
             type="checkbox"
@@ -191,7 +169,6 @@ const RegisterForm = () => {
           </label>
         </div>
 
-        {/* Kayıt Ol Butonu */}
         <div>
           <button
             type="submit"
@@ -201,6 +178,19 @@ const RegisterForm = () => {
           </button>
         </div>
       </form>
+
+      {/* Hesap var mı? Giriş yap linki */}
+      <div className="text-center mt-4">
+        <p className="text-center text-sm text-gray-600">
+        Henüz bir hesabınız yok mu?{" "}
+        <button
+          onClick={() => navigate("/login")}
+          className="text-orange-600 hover:underline"
+        >
+          Giriş Yap
+        </button>
+      </p>
+      </div>
     </div>
   );
 };

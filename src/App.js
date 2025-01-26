@@ -38,6 +38,9 @@ import SEOSettings from "./pages/Settings/SEOSettings";
 import EmailNotifications from "./pages/Settings/EmailNotifications";
 import ThemeSelection from "./pages/theme/ThemeSelection";
 import ThemeSettings from "./pages/theme/ThemeSettings";
+import SEOOverview from "./pages/seo/SEOOverview";
+import SEOKeywordManagement from "./pages/seo/SEOKeywordManagement";
+import SEOMetaTags from "./pages/seo/SEOMetaTags";
 
 function App() {
   // useEffect(() => {
@@ -92,6 +95,12 @@ function App() {
           <Route path="/settings/email-notifications" element={<EmailNotifications />} />
           <Route path="/theme/theme-selection" element={<ThemeSelection />} />
           <Route path="/theme/theme-settings" element={<ThemeSettings />} />
+          <Route path="/seo/overview" element={<SEOOverview />} />
+          <Route path="/seo/keywords" element={<SEOKeywordManagement />} />
+          <Route path="/seo/meta-tags" element={<SEOMetaTags />} />
+
+
+
           
 
 
