@@ -31,8 +31,12 @@ const LoginForm = () => {
       } else {
         // Müşteri girişi
         response = await loginCustomer({ email, password });
-        console.log("Müşteri girişi başarılı:", response);
-        navigate("/profile-complete"); // Ana sayfaya yönlendir
+        if(response){
+          console.log("Müşteri girişi başarılı:", response);
+          const id = response.userId
+          navigate(`/profile-complete/${id}`); // Ana sayfaya yönlendir
+
+        }
       }
     } catch (err) {
       setError(

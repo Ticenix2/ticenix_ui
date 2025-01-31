@@ -1,6 +1,10 @@
 import React from "react";
 import { FaUserCircle, FaRegAddressCard, FaUserTie, FaCreditCard, FaHome, FaSignOutAlt } from "react-icons/fa"; // Çıkış simgesi ekledik
 import { useNavigate, useLocation } from "react-router-dom"; // useLocation ekledik
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom"; // URL'deki ID'yi almak için
+import axios from "axios";
+import Avatar from "./Avatar";
 
 const ProfileSidebar = ({ userName, email }) => {
   const navigate = useNavigate();
@@ -26,18 +30,46 @@ const ProfileSidebar = ({ userName, email }) => {
   // Aktif menü öğesini belirlemek için aktif URL'yi kontrol etme
   const isActive = (path) => location.pathname === path ? "bg-blue-700 text-white" : "bg-white text-gray-900 hover:bg-blue-100 hover:text-blue-700"; // Aktif öğe için stil
 
+  const {id}  = useParams()
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("Token");
+        if (!token) {
+          console.error("Token bulunamadı!");
+          return;
+        }
+        const response = await axios.get(`http://localhost:5260/api/customer/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}` // Token'ı ekle
+          }
+        });
+
+        setUser(response.data); // Kullanıcı bilgilerini state'e kaydet
+      } catch (error) {
+        console.error("Kullanıcı bilgileri alınamadı:", error.response?.data || error.message);
+      }
+    };
+
+    fetchUserData();
+  }, [id]);
+
+  if (!user) return <p>Yükleniyor...</p>;
+
   return (
     <aside className="bg-white shadow-lg p-6 rounded-lg">
       {/* User Info */}
       <div className="flex items-center mb-6">
-        <img
+        {/* <img
           src="https://via.placeholder.com/150"
           alt="User Avatar"
           className="w-20 h-20 rounded-full border-4 border-blue-500"
-        />
+        /> */}
+        <Avatar name={user.customerFirstName}/>
         <div className="ml-4">
-          <h3 className="text-xl font-bold text-gray-900">{`Merhaba, ${userName}!`}</h3>
-          <p className="text-gray-600 text-sm">{email}</p>
+          <h3 className="text-xl font-bold text-gray-900">{`Merhaba, ${user.customerFirstName}!`}</h3>
+          <p className="text-gray-600 text-sm">{user.customerEmail}</p>
         </div>
       </div>
 

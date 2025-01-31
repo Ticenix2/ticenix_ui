@@ -6,9 +6,9 @@ import { registerUser } from "../../services/authService";
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [customerFirstName, setUsername] = useState("");
+  const [customerEmail, setEmail] = useState("");
+  const [passwordHash, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -27,13 +27,13 @@ const RegisterForm = () => {
     setError("");
     setSuccessMessage("");
 
-    if (password !== confirmPassword) {
+    if (passwordHash !== confirmPassword) {
       setError("Şifreler uyuşmuyor.");
       return;
     }
 
     try {
-      const userData = { username, email, password };
+      const userData = { customerFirstName, customerEmail, passwordHash };
       await registerUser(userData);
 
       setSuccessMessage("Kayıt başarılı! Giriş yapabilirsiniz.");
@@ -73,7 +73,7 @@ const RegisterForm = () => {
           <input
             type="text"
             id="username"
-            value={username}
+            value={customerFirstName}
             onChange={(e) => setUsername(e.target.value)}
             className="mt-1 block w-full p-4 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             placeholder="Kullanıcı Adı"
@@ -91,7 +91,7 @@ const RegisterForm = () => {
           <input
             type="email"
             id="email"
-            value={email}
+            value={customerEmail}
             onChange={(e) => setEmail(e.target.value)}
             className="mt-1 block w-full p-4 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             placeholder="E-Posta"
@@ -109,7 +109,7 @@ const RegisterForm = () => {
           <input
             type={showPassword ? "text" : "password"}
             id="password"
-            value={password}
+            value={passwordHash}
             onChange={(e) => setPassword(e.target.value)}
             className="mt-1 block w-full p-4 pl-4 pr-12 rounded-md border border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             placeholder="Şifre"

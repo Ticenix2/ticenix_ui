@@ -62,7 +62,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* Profil Tamamlama Sayfaları */}
-        <Route path="/profile-complete" element={<ProfileComplete />} />
+        <Route path="/profile-complete/:id" element={<ProfileComplete />} />
         <Route element={<ProfileSidebarLayout />}>
           <Route
             path="/profile-complete/business-info"
