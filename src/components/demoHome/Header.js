@@ -39,7 +39,7 @@ const Header = () => {
             <User size={18} />
             <span>Hesabım</span>
           </Link>
-          <Link to="/cart" className="flex items-center space-x-1 text-gray-700 hover:text-blue-600">
+          <Link to="/demo/shopping-cart" className="flex items-center space-x-1 text-gray-700 hover:text-blue-600">
             <ShoppingCart size={18} />
             <span>Sepetim</span>
           </Link>

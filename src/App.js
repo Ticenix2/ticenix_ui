@@ -47,6 +47,14 @@ import SEOTargeting from "./pages/seo/SEOTargeting";
 import SupportTickets from "./pages/support/SupportTickets";
 import HomePage from "./pages/HomePage";
 import DemoHomePage from "./pages/demo/HomePage";
+import ShoppingCart from "./pages/demo/ShoppingCart";
+import DemoLayout from "./layouts/DemoLayout";
+import CheckoutPage from "./pages/demo/CheckoutPage";
+import OrderConfirmationPage from "./pages/demo/OrderConfirmationPage";
+
+
+
+
 
 
 
@@ -115,6 +123,8 @@ function App() {
 
           
 
+
+
           
 
           
@@ -153,6 +163,13 @@ function App() {
 
         <Route path="/demo" element={<DemoHomePage/>} />
 
+        <Route element={<DemoLayout />}>
+          <Route path="/demo/shopping-cart" element={<ShoppingCart />} />
+          <Route path="/demo/checkout" element={<CheckoutPage />} />
+          <Route path="/demo/order-confirm" element={<OrderConfirmationPage />} />
+
+
+        </Route>
 
       </Routes>
     </Router>
