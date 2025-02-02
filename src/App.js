@@ -51,6 +51,7 @@ import ShoppingCart from "./pages/demo/ShoppingCart";
 import DemoLayout from "./layouts/DemoLayout";
 import CheckoutPage from "./pages/demo/CheckoutPage";
 import OrderConfirmationPage from "./pages/demo/OrderConfirmationPage";
+import CategoryPage from "./pages/demo/CategoryPage";
 
 
 
@@ -167,6 +168,8 @@ function App() {
           <Route path="/demo/shopping-cart" element={<ShoppingCart />} />
           <Route path="/demo/checkout" element={<CheckoutPage />} />
           <Route path="/demo/order-confirm" element={<OrderConfirmationPage />} />
+          <Route path="/demo/categories" element={<CategoryPage />} />
+
 
 
         </Route>

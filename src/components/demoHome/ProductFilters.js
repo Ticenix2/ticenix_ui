@@ -1,278 +1,227 @@
 import React, { useState } from "react";
 
-const ProductFilters = () => {
-  // Filtrelerin açılma/kapanma durumu
+// Başlangıç filtresi yapılandırması
+const initialFilterData = {
+  priceRange: { min: 0, max: 1000, step: 10 },
+  filters: [
+    {
+      type: "brands",
+      label: "Markalar",
+      options: ["Apple", "Samsung", "Sony", "Nike", "Adidas"],
+      isMultiple: true,
+    },
+    {
+      type: "colors",
+      label: "Renkler",
+      options: ["Kırmızı", "Mavi", "Siyah", "Beyaz", "Yeşil"],
+      isMultiple: true,
+    },
+  ],
+};
+
+const ProductFilters = ({ filterData = initialFilterData }) => {
+  const [filters, setFilters] = useState(filterData);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Filtrelerin durumları
-  const [filters, setFilters] = useState({
-    priceRange: [0, 500],
-    brands: [],
-    colors: [],
-    ratings: 0,
-    discount: false,
-    productType: "",
-    size: "",
-    popularity: "",
-  });
-
-  const brands = ["Apple", "Samsung", "Sony", "Nike", "Adidas"];
-  const colors = ["Red", "Blue", "Black", "White", "Green"];
-  const ratings = [1, 2, 3, 4, 5];
-  const productTypes = ["Phone", "Laptop", "Headphones", "Shoes"];
-  const sizes = ["Small", "Medium", "Large"];
-  const popularity = ["Popular", "New", "Top Rated"];
-
+  // Fiyat aralığı değişimi
   const handlePriceChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({
       ...prev,
-      [name]: value,
+      priceRange: name === "min" ? [Number(value), prev.priceRange[1]] : [prev.priceRange[0], Number(value)],
     }));
   };
 
-  const handleBrandChange = (brand) => {
+  // Dinamik olarak seçenek eklemek
+  const handleAddFilterOption = (filterType, newOption) => {
     setFilters((prev) => {
-      const newBrands = prev.brands.includes(brand)
-        ? prev.brands.filter((b) => b !== brand)
-        : [...prev.brands, brand];
-      return {
-        ...prev,
-        brands: newBrands,
-      };
+      const updatedFilters = { ...prev };
+      const filter = updatedFilters.filters.find((f) => f.type === filterType);
+      if (filter) {
+        filter.options.push(newOption);
+      }
+      return updatedFilters;
     });
   };
 
-  const handleColorChange = (color) => {
+  // Dinamik olarak seçenek silmek
+  const handleRemoveFilterOption = (filterType, optionToRemove) => {
     setFilters((prev) => {
-      const newColors = prev.colors.includes(color)
-        ? prev.colors.filter((c) => c !== color)
-        : [...prev.colors, color];
-      return {
-        ...prev,
-        colors: newColors,
-      };
+      const updatedFilters = { ...prev };
+      const filter = updatedFilters.filters.find((f) => f.type === filterType);
+      if (filter) {
+        filter.options = filter.options.filter((option) => option !== optionToRemove);
+      }
+      return updatedFilters;
     });
   };
 
-  const handleRatingChange = (rating) => {
+  // Dinamik olarak filtre eklemek
+  const handleAddFilter = (newFilter) => {
     setFilters((prev) => ({
       ...prev,
-      ratings: rating,
+      filters: [...prev.filters, newFilter],
     }));
   };
 
-  const handleDiscountChange = () => {
+  // Filtreyi silmek
+  const handleRemoveFilter = (filterType) => {
     setFilters((prev) => ({
       ...prev,
-      discount: !prev.discount,
+      filters: prev.filters.filter((filter) => filter.type !== filterType),
     }));
   };
 
-  const handleProductTypeChange = (type) => {
-    setFilters((prev) => ({
-      ...prev,
-      productType: type,
-    }));
+  // Başlık değişikliği
+  const handleLabelChange = (filterType, newLabel) => {
+    setFilters((prev) => {
+      const updatedFilters = { ...prev };
+      const filter = updatedFilters.filters.find((f) => f.type === filterType);
+      if (filter) {
+        filter.label = newLabel;
+      }
+      return updatedFilters;
+    });
   };
 
-  const handleSizeChange = (size) => {
-    setFilters((prev) => ({
-      ...prev,
-      size: size,
-    }));
-  };
+  // Seçenek değişikliği (Checkbox veya Radio)
+  const handleSelectionChange = (filterType, value) => {
+    setFilters((prev) => {
+      const newFilters = { ...prev };
+      const filter = newFilters.filters.find((f) => f.type === filterType);
 
-  const handlePopularityChange = (pop) => {
-    setFilters((prev) => ({
-      ...prev,
-      popularity: pop,
-    }));
+      if (filter.isMultiple) {
+        if (filter.options.includes(value)) {
+          filter.options = filter.options.filter((option) => option !== value);
+        } else {
+          filter.options.push(value);
+        }
+      } else {
+        filter.options = [value];
+      }
+
+      return newFilters;
+    });
   };
 
   return (
     <div className="p-6 bg-gray-50 rounded-xl shadow-xl">
-      {/* Filtre Başlığı ve Ok İkonu */}
-      <div
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between cursor-pointer p-4 bg-white text-gray-800 rounded-lg border border-gray-200 shadow-sm"
-      >
+      <div onClick={() => setIsOpen(!isOpen)} className="flex items-center justify-between cursor-pointer p-4 bg-white text-gray-800 rounded-lg border border-gray-200 shadow-sm">
         <span className="text-xl font-semibold">Filtreyi Göster</span>
-        <svg
-          className={`w-6 h-6 transform transition-all duration-300 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
-          />
+        <svg className={`w-6 h-6 transform transition-all duration-300 ${isOpen ? "rotate-180" : ""}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
         </svg>
       </div>
 
       {/* Filtre Paneli */}
       {isOpen && (
         <div className="transition-all duration-500 ease-in-out mt-4">
-          {/* Yatay Düzen - Flexbox ile Filtreler */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {/* Fiyat Aralığı */}
-            <div className="flex flex-col">
-              <h4 className="text-lg font-medium text-gray-700 mb-3">Fiyat Aralığı</h4>
-              <input
-                type="range"
-                min="0"
-                max="1000"
-                step="10"
-                name="priceRange"
-                value={filters.priceRange[0]}
-                onChange={handlePriceChange}
-                className="w-full h-2 bg-gray-200 rounded-lg"
-              />
-              <div className="flex justify-between mt-2 text-sm">
-                <span>{filters.priceRange[0]}₺</span>
-                <span>{filters.priceRange[1]}₺</span>
-              </div>
-            </div>
-
-            {/* Marka Filtre */}
-            <div className="flex flex-col">
-              <h4 className="text-lg font-medium text-gray-700 mb-3">Markalar</h4>
-              <div className="space-y-2">
-                {brands.map((brand) => (
-                  <label key={brand} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={filters.brands.includes(brand)}
-                      onChange={() => handleBrandChange(brand)}
-                      className="form-checkbox text-blue-600"
-                    />
-                    <span>{brand}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Renk Filtre */}
-            <div className="flex flex-col">
-              <h4 className="text-lg font-medium text-gray-700 mb-3">Renkler</h4>
-              <div className="flex space-x-3">
-                {colors.map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => handleColorChange(color)}
-                    className={`w-8 h-8 rounded-full border-2 ${
-                      filters.colors.includes(color)
-                        ? "border-blue-600"
-                        : "border-gray-300"
-                    }`}
-                    style={{ backgroundColor: color.toLowerCase() }}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Yıldızlı Değerlendirme */}
-            <div className="flex flex-col">
-              <h4 className="text-lg font-medium text-gray-700 mb-3">Değerlendirme</h4>
-              <div className="flex space-x-2">
-                {ratings.map((rating) => (
-                  <button
-                    key={rating}
-                    onClick={() => handleRatingChange(rating)}
-                    className={`${
-                      filters.ratings >= rating ? "text-yellow-500" : "text-gray-400"
-                    } text-xl`}
-                  >
-                    ★
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* İndirimli Ürünler */}
-            <div className="flex flex-col">
-              <h4 className="text-lg font-medium text-gray-700 mb-3">İndirimli Ürünler</h4>
-              <label className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={filters.discount}
-                  onChange={handleDiscountChange}
-                  className="form-checkbox text-blue-600"
-                />
-                <span>İndirimli Ürünler</span>
-              </label>
-            </div>
-
-            {/* Ürün Tipi */}
-            <div className="flex flex-col">
-              <h4 className="text-lg font-medium text-gray-700 mb-3">Ürün Tipi</h4>
-              <div className="space-y-2">
-                {productTypes.map((type) => (
-                  <label key={type} className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      name="productType"
-                      checked={filters.productType === type}
-                      onChange={() => handleProductTypeChange(type)}
-                      className="form-radio text-blue-600"
-                    />
-                    <span>{type}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Boyut Filtre */}
-            <div className="flex flex-col">
-              <h4 className="text-lg font-medium text-gray-700 mb-3">Boyut Seçimi</h4>
-              <div className="space-y-2">
-                {sizes.map((size) => (
-                  <label key={size} className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      name="size"
-                      checked={filters.size === size}
-                      onChange={() => handleSizeChange(size)}
-                      className="form-radio text-blue-600"
-                    />
-                    <span>{size}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Popülerlik Filtre */}
-            <div className="flex flex-col">
-              <h4 className="text-lg font-medium text-gray-700 mb-3">Popülerlik</h4>
-              <div className="space-y-2">
-                {popularity.map((pop) => (
-                  <label key={pop} className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      name="popularity"
-                      checked={filters.popularity === pop}
-                      onChange={() => handlePopularityChange(pop)}
-                      className="form-radio text-blue-600"
-                    />
-                    <span>{pop}</span>
-                  </label>
-                ))}
-              </div>
+          {/* Fiyat Aralığı */}
+          <div className="flex flex-col mb-6">
+            <h4 className="text-lg font-medium text-gray-700 mb-3">Fiyat Aralığı</h4>
+            <input
+              type="range"
+              min={filters.priceRange.min}
+              max={filters.priceRange.max}
+              step={filters.priceRange.step}
+              name="min"
+              value={filters.priceRange[0] || filters.priceRange.min}
+              onChange={handlePriceChange}
+              className="w-full h-2 bg-gray-200 rounded-lg"
+            />
+            <input
+              type="range"
+              min={filters.priceRange.min}
+              max={filters.priceRange.max}
+              step={filters.priceRange.step}
+              name="max"
+              value={filters.priceRange[1] || filters.priceRange.max}
+              onChange={handlePriceChange}
+              className="w-full h-2 bg-gray-200 rounded-lg"
+            />
+            <div className="flex justify-between mt-2 text-sm">
+              <span>{filters.priceRange[0] || filters.priceRange.min}₺</span>
+              <span>{filters.priceRange[1] || filters.priceRange.max}₺</span>
             </div>
           </div>
 
-          {/* Uygula Butonu */}
+          {/* Dinamik Filtreler */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filters.filters.map((filter) => (
+              <div key={filter.type} className="flex flex-col">
+                <div className="flex justify-between items-center">
+                  <h4 className="text-lg font-medium text-gray-700 mb-3">{filter.label}</h4>
+                  {/* Başlık Değiştirme */}
+                  <button
+                    onClick={() => {
+                      const newLabel = prompt("Yeni başlık girin:", filter.label);
+                      if (newLabel) {
+                        handleLabelChange(filter.type, newLabel);
+                      }
+                    }}
+                    className="text-sm text-blue-600"
+                  >
+                    Başlığı Düzenle
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {filter.options.map((option) => (
+                    <label key={option} className="flex items-center space-x-2">
+                      <input
+                        type={filter.isMultiple ? "checkbox" : "radio"}
+                        checked={filter.isMultiple ? filters[filter.type]?.includes(option) : filters[filter.type] === option}
+                        onChange={() => handleSelectionChange(filter.type, option)}
+                        className="form-checkbox text-blue-600"
+                      />
+                      <span>{option}</span>
+                      {filter.isMultiple && (
+                        <button onClick={() => handleRemoveFilterOption(filter.type, option)} className="text-sm text-red-500 ml-2">
+                          Sil
+                        </button>
+                      )}
+                    </label>
+                  ))}
+                </div>
+                {/* Yeni Seçenek Ekleme */}
+                <button
+                  onClick={() => {
+                    const newOption = prompt("Yeni seçenek ekleyin:");
+                    if (newOption) {
+                      handleAddFilterOption(filter.type, newOption);
+                    }
+                  }}
+                  className="text-sm text-blue-600 mt-2"
+                >
+                  Yeni Seçenek Ekle
+                </button>
+                {/* Filtreyi Sil */}
+                <button
+                  onClick={() => handleRemoveFilter(filter.type)}
+                  className="text-sm text-red-600 mt-2"
+                >
+                  Filtreyi Sil
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Yeni Filtre Ekleme */}
           <button
-            onClick={() => console.log(filters)}
+            onClick={() => {
+              const filterType = prompt("Filtre türünü (örneğin, 'markalar', 'renkler') girin:");
+              const filterLabel = prompt("Filtre başlığını girin:");
+              const isMultiple = prompt("Çoklu seçim için 'true' yazın, tekli seçim için 'false':") === 'true';
+              const newFilter = {
+                type: filterType,
+                label: filterLabel,
+                options: [],
+                isMultiple,
+              };
+              handleAddFilter(newFilter);
+            }}
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300 mt-6"
           >
-            Filtreyi Uygula
+            Yeni Filtre Ekle
           </button>
         </div>
       )}

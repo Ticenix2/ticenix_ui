@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const CustomerReviews = () => {
-  // Manuel girilen yorumlar
-  const reviews = [
+  // Başlangıçta manuel olarak girilen yorumlar
+  const initialReviews = [
     {
       id: 1,
       title: "Harika Bir Ürün!",
@@ -41,16 +41,57 @@ const CustomerReviews = () => {
     },
   ];
 
+  // Yorumları ve yeni yorum verilerini state olarak tutalım
+  const [reviews, setReviews] = useState(initialReviews);
+  const [newReview, setNewReview] = useState({
+    title: '',
+    rating: 5,
+    comment: '',
+    name: '',
+    avatar: 'https://via.placeholder.com/150',
+  });
+
+  // Yorum ekleme işlemi
+  const handleAddReview = () => {
+    const newId = reviews.length + 1;
+    const reviewWithId = { ...newReview, id: newId, date: new Date().toLocaleDateString() };
+    setReviews([...reviews, reviewWithId]);
+    setNewReview({
+      title: '',
+      rating: 5,
+      comment: '',
+      name: '',
+      avatar: 'https://via.placeholder.com/150',
+    });
+  };
+
+  // Yorum düzenleme işlemi
+  const handleEditReview = (id) => {
+    const reviewToEdit = reviews.find((review) => review.id === id);
+    setNewReview({
+      title: reviewToEdit.title,
+      rating: reviewToEdit.rating,
+      comment: reviewToEdit.comment,
+      name: reviewToEdit.name,
+      avatar: reviewToEdit.avatar,
+    });
+    setReviews(reviews.filter((review) => review.id !== id)); // Yorum silinir, sonra düzenlenmiş olarak eklenir
+  };
+
+  // Yorum silme işlemi
+  const handleDeleteReview = (id) => {
+    setReviews(reviews.filter((review) => review.id !== id));
+  };
+
   return (
     <section className="bg-gradient-to-r from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-screen-xl mx-auto text-center">
         <h2 className="text-4xl font-bold text-gray-800 mb-12">Müşteri Yorumları</h2>
 
-        
         <p className="text-xl text-gray-600 mb-10">Müşterilerimizin geri bildirimleri ile ürünlerimizi daha iyiye taşıyoruz.</p>
 
         {/* Yorumlar Listesi */}
-        <div className="space-y-12">
+        <div className="space-y-12 mb-12">
           {reviews.map((review) => (
             <div
               key={review.id}
@@ -95,8 +136,55 @@ const CustomerReviews = () => {
                   <p className="text-sm text-gray-500">{review.date}</p>
                 </div>
               </div>
+
+              {/* Yorum Düzenleme ve Silme */}
+              <div className="flex space-x-4 mt-4">
+                <button
+                  onClick={() => handleEditReview(review.id)}
+                  className="text-sm text-blue-600"
+                >
+                  Düzenle
+                </button>
+                <button
+                  onClick={() => handleDeleteReview(review.id)}
+                  className="text-sm text-red-600"
+                >
+                  Sil
+                </button>
+              </div>
             </div>
           ))}
+        </div>
+
+        {/* Yorum Ekleme Formu */}
+        <div className="bg-white p-8 rounded-xl shadow-lg">
+          <h3 className="text-2xl font-semibold text-gray-800 mb-6">Yorum Ekle</h3>
+          <input
+            type="text"
+            placeholder="Başlık"
+            value={newReview.title}
+            onChange={(e) => setNewReview({ ...newReview, title: e.target.value })}
+            className="w-full p-4 mb-4 border border-gray-300 rounded-lg"
+          />
+          <textarea
+            placeholder="Yorumunuz"
+            value={newReview.comment}
+            onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+            className="w-full p-4 mb-4 border border-gray-300 rounded-lg"
+          ></textarea>
+          <input
+            type="text"
+            placeholder="Adınız"
+            value={newReview.name}
+            onChange={(e) => setNewReview({ ...newReview, name: e.target.value })}
+            className="w-full p-4 mb-4 border border-gray-300 rounded-lg"
+          />
+          <button
+            onClick={handleAddReview}
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+          >
+            Yorum Gönder
+          </button>
         </div>
       </div>
     </section>
