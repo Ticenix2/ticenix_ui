@@ -34,42 +34,31 @@ const RegisterForm = () => {
 
     try {
       const userData = { username, email, password };
-      await registerUser(userData);
-
-      setSuccessMessage("Kayıt başarılı! Giriş yapabilirsiniz.");
-      setTimeout(() => navigate("/login"), 2000);
+      const response = await registerUser(userData);
+      
+      if (response) {
+        setSuccessMessage("Kayıt başarılı! Giriş yapabilirsiniz.");
+        setTimeout(() => navigate("/login"), 2000);
+      }
     } catch (err) {
       setError(
         err.response?.data?.message || "Kayıt işlemi sırasında bir hata oluştu."
       );
-      console.error(err);
+      console.error("Kayıt hatası:", err);
     }
-  };
-
-  const handleLoginRedirect = () => {
-    navigate("/login");
   };
 
   return (
     <div className="max-w-md w-full mx-auto mt-20 p-6 bg-white rounded-lg shadow-md space-y-6">
       <h2 className="text-3xl font-bold text-gray-800 text-center">Kayıt Ol</h2>
-      <p className="text-center text-gray-500">
-        E-ticaret dünyasına katılın. Hesabınızı oluşturun.
-      </p>
+      <p className="text-center text-gray-500">E-ticaret dünyasına katılın. Hesabınızı oluşturun.</p>
 
       {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-      {successMessage && (
-        <p className="text-green-500 text-sm text-center">{successMessage}</p>
-      )}
+      {successMessage && <p className="text-green-500 text-sm text-center">{successMessage}</p>}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label
-            htmlFor="username"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Kullanıcı Adı
-          </label>
+          <label htmlFor="username" className="block text-sm font-medium text-gray-700">Kullanıcı Adı</label>
           <input
             type="text"
             id="username"
@@ -82,12 +71,7 @@ const RegisterForm = () => {
         </div>
 
         <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            E-Posta
-          </label>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">E-Posta</label>
           <input
             type="email"
             id="email"
@@ -100,12 +84,7 @@ const RegisterForm = () => {
         </div>
 
         <div className="relative">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Şifre
-          </label>
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">Şifre</label>
           <input
             type={showPassword ? "text" : "password"}
             id="password"
@@ -115,26 +94,13 @@ const RegisterForm = () => {
             placeholder="Şifre"
             required
           />
-          <button
-            type="button"
-            onClick={togglePasswordVisibility}
-            className="absolute inset-y-0 right-4 top-6 flex items-center text-gray-500 hover:text-gray-700"
-          >
-            {showPassword ? (
-              <FaEyeSlash className="w-5 h-5" />
-            ) : (
-              <FaEye className="w-5 h-5" />
-            )}
+          <button type="button" onClick={togglePasswordVisibility} className="absolute inset-y-0 right-4 top-6 flex items-center text-gray-500 hover:text-gray-700">
+            {showPassword ? <FaEyeSlash className="w-5 h-5" /> : <FaEye className="w-5 h-5" />}
           </button>
         </div>
 
         <div className="relative">
-          <label
-            htmlFor="confirmPassword"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Şifreyi Tekrarla
-          </label>
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Şifreyi Tekrarla</label>
           <input
             type={showConfirmPassword ? "text" : "password"}
             id="confirmPassword"
@@ -144,52 +110,25 @@ const RegisterForm = () => {
             placeholder="Şifreyi Tekrarla"
             required
           />
-          <button
-            type="button"
-            onClick={toggleConfirmPasswordVisibility}
-            className="absolute inset-y-0 right-4 top-6 flex items-center text-gray-500 hover:text-gray-700"
-          >
-            {showConfirmPassword ? (
-              <FaEyeSlash className="w-5 h-5" />
-            ) : (
-              <FaEye className="w-5 h-5" />
-            )}
+          <button type="button" onClick={toggleConfirmPasswordVisibility} className="absolute inset-y-0 right-4 top-6 flex items-center text-gray-500 hover:text-gray-700">
+            {showConfirmPassword ? <FaEyeSlash className="w-5 h-5" /> : <FaEye className="w-5 h-5" />}
           </button>
         </div>
 
         <div className="flex items-center">
-          <input
-            type="checkbox"
-            id="terms"
-            className="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
-            required
-          />
-          <label htmlFor="terms" className="ml-2 text-sm text-gray-600">
-            Kullanıcı Sözleşmesini kabul ediyorum
-          </label>
+          <input type="checkbox" id="terms" className="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded" required />
+          <label htmlFor="terms" className="ml-2 text-sm text-gray-600">Kullanıcı Sözleşmesini kabul ediyorum</label>
         </div>
 
         <div>
-          <button
-            type="submit"
-            className="w-full bg-orange-600 text-white py-3 px-4 rounded-md text-sm font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-          >
-            Kayıt Ol
-          </button>
+          <button type="submit" className="w-full bg-orange-600 text-white py-3 px-4 rounded-md text-sm font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">Kayıt Ol</button>
         </div>
       </form>
 
-      {/* Hesap var mı? Giriş yap linki */}
       <div className="text-center mt-4">
-        <p className="text-center text-sm text-gray-600">
-        Hesabınız var mı?{" "}
-        <button
-          onClick={() => navigate("/login")}
-          className="text-orange-600 hover:underline"
-        >
-          Giriş Yap
-        </button>
-      </p>
+        <p className="text-sm text-gray-600">
+          Hesabınız var mı? <button onClick={() => navigate("/login")} className="text-orange-600 hover:underline">Giriş Yap</button>
+        </p>
       </div>
     </div>
   );

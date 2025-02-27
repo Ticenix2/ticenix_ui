@@ -1,60 +1,58 @@
-// services/authService.js
 import axios from "axios";
 
-// API'nin temel URL'ini buraya ekleyebilirsiniz
-const API_URL = "http://localhost:5260/api";
+const API_URL = "http://localhost:5129/api"; // Gerekirse HTTPS'yi de dene
+
+const handleRequestError = (error) => {
+  console.error("API Hatası:", error);
+  throw error.response?.data?.message || "Sunucu hatası!";
+};
 
 // Müşteri kaydı
 export const registerUser = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/customer/register`, userData); // Customer register API çağrısı
+    const response = await axios.post(`${API_URL}/customer/register`, userData);
     return response.data;
   } catch (error) {
-    console.error("Kayıt sırasında hata oluştu:", error);
-    throw error;
+    return handleRequestError(error);
   }
 };
 
 // Müşteri girişi
 export const loginCustomer = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/customer/login`, userData); // Customer login API çağrısı
+    const response = await axios.post(`${API_URL}/customer/login`, userData);
     return response.data;
   } catch (error) {
-    console.error("Müşteri girişi sırasında hata oluştu:", error);
-    throw error;
+    return handleRequestError(error);
   }
 };
 
 // Admin girişi
 export const loginAdmin = async (adminData) => {
   try {
-    const response = await axios.post(`${API_URL}/admin/login`, adminData); // Admin login API çağrısı
+    const response = await axios.post(`${API_URL}/admin/login`, adminData);
     return response.data;
   } catch (error) {
-    console.error("Admin girişi sırasında hata oluştu:", error);
-    throw error;
+    return handleRequestError(error);
   }
 };
 
 // Müşteri şifre sıfırlama
 export const resetCustomerPassword = async (email) => {
   try {
-    const response = await axios.post(`${API_URL}/customer/reset-password`, { email }); // Customer reset password API çağrısı
+    const response = await axios.post(`${API_URL}/customer/reset-password`, { email });
     return response.data;
   } catch (error) {
-    console.error("Müşteri şifre sıfırlama sırasında hata oluştu:", error);
-    throw error;
+    return handleRequestError(error);
   }
 };
 
 // Admin şifre sıfırlama
 export const resetAdminPassword = async (email) => {
   try {
-    const response = await axios.post(`${API_URL}/admin/reset-password`, { email }); // Admin reset password API çağrısı
+    const response = await axios.post(`${API_URL}/admin/reset-password`, { email });
     return response.data;
   } catch (error) {
-    console.error("Admin şifre sıfırlama sırasında hata oluştu:", error);
-    throw error;
+    return handleRequestError(error);
   }
 };
